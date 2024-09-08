@@ -4,6 +4,9 @@ import Alert from './components/Alert';
 import Navbar from './components/Navbar';
 import TextForm from './components/TextForm';
 import React, { useState, useEffect } from 'react';
+import {
+  BrowserRouter as Router, Routes, Route, Link
+} from 'react-router-dom';
 
 
 function App() {
@@ -15,6 +18,9 @@ function App() {
       msg: message,
       type: type,
     })
+    setTimeout(() => {
+      setAlert(null)
+    }, 1500);
   }
   const toggleMode = () => {
     if (mode === 'light') {
@@ -30,14 +36,19 @@ function App() {
   }
   return (
     <>
-      <Navbar title="TextUtils" mode={mode} toggleMode={toggleMode} />
-      <Alert alert={alert} />
-      <div className="container my-3">
-        <TextForm heading="Enter the text to analyse below" mode={mode} />
-        <About mode={mode} />
-      </div >
+      <Router>
+        <Navbar title="TextUtils" mode={mode} toggleMode={toggleMode} />
+        <Alert alert={alert} />
+        <div className="container my-3">
+          <Routes> {/* Changed switch to Routes */}
+            <Route exact path="/about" element={<About mode={mode} />} /> {/* Use 'element' prop */}
+            <Route exact path="/" element={<TextForm showAlert={showAlert} heading="Enter the text to analyse below" mode={mode} />} />
+          </Routes>
+        </div>
+      </Router>
     </>
   );
+
 }
 
 export default App;

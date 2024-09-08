@@ -4,11 +4,13 @@ export default function TexthtmlForm(props) {
     const handleUpClick = () => {
         let newText = text.toUpperCase();
         setText(newText);
+        props.showAlert("Converted to UpperCase", "success");
     }
 
     const handleLowClick = () => {
         let newText = text.toLowerCase();
         setText(newText);
+        props.showAlert("Converted to LowerCase", "success");
     }
 
     const handleOnChange = (event) => {
@@ -17,12 +19,19 @@ export default function TexthtmlForm(props) {
 
     const handleClearClick = () => {
         setText('');
+        props.showAlert("TextArea is Cleared", "success");
     }
 
     const handleCopy = () => {
         var text = document.getElementById("myBox");
         text.select();
         navigator.clipboard.writeText(text.value);
+        props.showAlert("Text copied to Clipboard!", "success");
+    }
+    const handleExtraSpaces = () => {
+        let newText = text.split(/[ ]+/);
+        setText(newText.join(" "));
+        props.showAlert("Extraspaces has been Removed", "success");
     }
 
     const [text, setText] = useState('');
@@ -44,8 +53,9 @@ export default function TexthtmlForm(props) {
                 </div>
                 <button className="btn btn-primary mx-2" onClick={handleUpClick}>Convert to Uppercase</button>
                 <button className="btn btn-primary mx-2" onClick={handleLowClick}>Convert to Lowercase</button>
-                <button className="btn btn-secondary mx-2" onClick={handleClearClick}>Clear Text</button>
+                <button className="btn btn-primary mx-2" onClick={handleClearClick}>Clear Text</button>
                 <button className="btn btn-primary mx-2" onClick={handleCopy}>Copy Text</button>
+                <button className="btn btn-primary mx-2" onClick={handleExtraSpaces}>Remove Extra Spaces</button>
             </div >
             <div className="container my-3" style={{ color: props.mode === 'light' ? 'black' : 'white' }}>
                 <h2>Your Text Summary</h2>
